@@ -3,6 +3,7 @@ $:.unshift File.expand_path("../lib", File.dirname(__FILE__))
 ENV['RAILS_ENV'] ||= 'test'
 
 require "active_support/testing/assertions"
+require "interest"
 
 load File.expand_path("support/database.rb", File.dirname(__FILE__))
 load File.expand_path("support/schema.rb", File.dirname(__FILE__))

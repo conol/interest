@@ -8,8 +8,9 @@ module Interest
     extend ActiveSupport::Concern
 
     module ClassMethods
-      def acts_as_follower
+      def acts_as_follower(*args)
         include Follower
+        define_follower_relationship *args
       end
 
       def acts_as_followee
