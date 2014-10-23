@@ -21,7 +21,7 @@ module Interest
       end
 
       def follow!(followee)
-        follow followee or raise Interest::Followable::Exceptions::Rejected
+        follow followee or raise Interest::Followable::Rejected
       end
 
       def unfollow(followee)

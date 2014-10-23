@@ -13,7 +13,7 @@ describe "Followable" do
   it "should not follow self and raise exception" do
     user = User.create!
 
-    expect { user.follow!(user) }.to raise_error(Interest::Followable::Exceptions::Rejected)
+    expect { user.follow!(user) }.to raise_error(Interest::Followable::Rejected)
   end
 
   it "should not follow self" do
