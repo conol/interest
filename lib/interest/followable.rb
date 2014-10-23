@@ -10,7 +10,7 @@ module Interest
     module ClassMethods
       def acts_as_follower(*args)
         include Follower
-        define_follower_relationship *args
+        define_follower_association_methods *args
       end
 
       def acts_as_followee

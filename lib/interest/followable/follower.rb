@@ -23,7 +23,7 @@ module Interest
       end
 
       module ClassMethods
-        def define_follower_relationship(*args)
+        def define_follower_association_methods(*args)
           class_name = name
 
           has_many :followings,
