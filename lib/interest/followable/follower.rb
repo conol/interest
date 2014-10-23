@@ -1,16 +1,22 @@
 require "active_support"
+require "interest/followable/exceptions"
+require "interest/followable/followee"
 
 module Interest
   module Followable
     module Follower
       extend ActiveSupport::Concern
 
+      def followable?(followee)
+        followee.is_a?(Interest::Followable::Followee)
+      end
+
       def following?(followee)
         follower_association_method_for(followee).include? followee
       end
 
       def follow(followee)
-        return nil if followee == self
+        return nil if followee == self or not followable?(followee)
         follower_association_method_for(followee) << followee
       end
 
