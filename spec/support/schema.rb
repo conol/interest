@@ -12,6 +12,11 @@ ActiveRecord::Schema.define version: 0 do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "collections", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 end
 
 %w(followings).each do |table_name|

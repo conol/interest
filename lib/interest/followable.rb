@@ -13,8 +13,9 @@ module Interest
         define_follower_association_methods *args
       end
 
-      def acts_as_followee
+      def acts_as_followee(*args)
         include Followee
+        define_followee_association_methods *args
       end
     end
   end

@@ -22,25 +22,33 @@ module Interest
         __send__ self.class.follower_association_method_name_for(followee)
       end
 
+      def method_missing(name, *args)
+        return super if args.present? or block_given?
+        return super unless /\Afollowing_(?<type>.+)\Z/ =~ name.to_s
+
+        self.class.define_follower_association_method type.classify
+
+        __send__ name
+      end
+
       module ClassMethods
         def define_follower_association_methods(*args)
-          class_name = name
-
           has_many :followings,
             -> { uniq },
             dependent:   :destroy,
             class_name:  "Following",
             foreign_key: :follower_id
+        end
 
-          args.map(&:to_s).each do |source_type|
-            association_method_name = follower_association_method_name_for source_type
+        def define_follower_association_method(source_type)
+          class_name              = name
+          association_method_name = follower_association_method_name_for source_type
 
-            has_many association_method_name,
-              -> { where(followings: {follower_type: class_name}).uniq },
-              through:     :followings,
-              source:      :followee,
-              source_type: source_type
-          end
+          has_many association_method_name,
+            -> { where(followings: {follower_type: class_name}).uniq },
+            through:     :followings,
+            source:      :followee,
+            source_type: source_type
         end
 
         def follower_association_method_name_for(followee)
