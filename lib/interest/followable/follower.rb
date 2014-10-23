@@ -20,6 +20,10 @@ module Interest
         follower_association_method_for(followee) << followee
       end
 
+      def follow!(followee)
+        follow followee or raise Interest::Followable::Exceptions::Rejected
+      end
+
       def unfollow(followee)
         follower_association_method_for(followee).delete followee
       end

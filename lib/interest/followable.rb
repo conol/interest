@@ -1,4 +1,5 @@
 require "active_support"
+require "interest/followable/exceptions"
 require "interest/followable/following"
 require "interest/followable/follower"
 require "interest/followable/followee"
