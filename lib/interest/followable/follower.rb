@@ -1,4 +1,6 @@
 require "active_support"
+require "interest/utils"
+require "interest/definition"
 require "interest/followable/exceptions"
 require "interest/followable/followee"
 
@@ -6,6 +8,8 @@ module Interest
   module Followable
     module Follower
       extend ActiveSupport::Concern
+
+      include Interest::Definition.instance_methods_for(:follower, :following)
 
       def followable?(followee)
         followee.is_a?(Interest::Followable::Followee)
@@ -28,20 +32,9 @@ module Interest
         follower_association_method_for(followee).delete followee
       end
 
-      def follower_association_method_for(followee)
-        __send__ self.class.follower_association_method_name_for(followee)
-      end
-
-      def method_missing(name, *args)
-        return super if args.present? or block_given?
-        return super unless /\Afollowing_(?<type>.+)\Z/ =~ name.to_s
-
-        self.class.define_follower_association_method type.classify
-
-        __send__ name
-      end
-
       module ClassMethods
+        include Interest::Definition.class_methods_for(:follower, :following)
+
         def define_follower_association_methods(*args)
           has_many :followings,
             -> { uniq },
@@ -58,11 +51,6 @@ module Interest
             through:     :followings,
             source:      :followee,
             source_type: source_type
-        end
-
-        def follower_association_method_name_for(followee)
-          name = followee.is_a?(ActiveRecord::Base) ? followee.class.name : followee.to_s
-          :"following_#{name.underscore.pluralize}"
         end
       end
     end
