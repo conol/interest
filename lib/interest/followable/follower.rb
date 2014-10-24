@@ -51,11 +51,10 @@ module Interest
         end
 
         def define_follower_association_method(source_type)
-          class_name              = name
           association_method_name = follower_association_method_name_for source_type
 
           has_many association_method_name,
-            -> { where(followings: {follower_type: class_name}).uniq },
+            ->(owner) { where(followings: {follower_type: owner.class.name}).uniq },
             through:     :followings,
             source:      :followee,
             source_type: source_type
