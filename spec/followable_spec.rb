@@ -2,8 +2,8 @@ require "spec_helper"
 
 describe "Followable" do
   it "should follow other" do
-    user       = User.create!
-    other_user = User.create!
+    user       = FollowableUser.create!
+    other_user = FollowableUser.create!
 
     user.follow(other_user)
 
@@ -11,32 +11,32 @@ describe "Followable" do
   end
 
   it "should not follow self and raise exception" do
-    user = User.create!
+    user = FollowableUser.create!
 
     expect { user.follow!(user) }.to raise_error(Interest::Followable::Rejected)
   end
 
   it "should not follow self" do
-    user = User.create!
+    user = FollowableUser.create!
 
     user.follow(user)
 
-    expect(user.following_users).to be_empty
+    expect(user.following_followable_users).to be_empty
   end
 
   it "should not duplicate followee" do
-    user       = User.create!
-    other_user = User.create!
+    user       = FollowableUser.create!
+    other_user = FollowableUser.create!
 
     user.follow(other_user)
     user.follow(other_user)
 
-    expect(user.following_users.count).to eq(1)
+    expect(user.following_followable_users.count).to eq(1)
   end
 
   it "should follow several types" do
-    user       = User.create!
-    other_user = User.create!
+    user       = FollowableUser.create!
+    other_user = FollowableUser.create!
     stuff      = Stuff.create!
 
     user.follow(other_user)
@@ -47,8 +47,8 @@ describe "Followable" do
   end
 
   it "should unfollow" do
-    user       = User.create!
-    other_user = User.create!
+    user       = FollowableUser.create!
+    other_user = FollowableUser.create!
 
     user.follow(other_user)
     user.unfollow(other_user)
@@ -57,9 +57,9 @@ describe "Followable" do
   end
 
   it "should determine if self is followed by other" do
-    user             = User.create!
-    other_user       = User.create!
-    indifferent_user = User.create!
+    user             = FollowableUser.create!
+    other_user       = FollowableUser.create!
+    indifferent_user = FollowableUser.create!
 
     other_user.follow(user)
 
@@ -68,11 +68,11 @@ describe "Followable" do
   end
 
   context "following several types" do
-    let(:user) { User.create! }
-    let(:popular_user) { User.create! }
+    let(:user) { FollowableUser.create! }
+    let(:popular_user) { FollowableUser.create! }
 
     before do
-      other_user = User.create!
+      other_user = FollowableUser.create!
       stuff      = Stuff.create!
       collection = Collection.create!
 
@@ -92,7 +92,7 @@ describe "Followable" do
     end
 
     it "should count each type of followings" do
-      expect(user.following_users.count).to eq(2)
+      expect(user.following_followable_users.count).to eq(2)
       expect(user.following_stuffs.count).to eq(1)
       expect(user.following_collections.count).to eq(1)
     end
@@ -102,7 +102,7 @@ describe "Followable" do
     end
 
     it "should count each type of followers" do
-      expect(popular_user.follower_users.count).to eq(2)
+      expect(popular_user.follower_followable_users.count).to eq(2)
       expect(popular_user.follower_collections.count).to eq(1)
     end
   end

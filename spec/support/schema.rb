@@ -19,7 +19,7 @@ ActiveRecord::Schema.define version: 0 do
   end
 end
 
-%w(followings).each do |table_name|
+%w(followings blockings).each do |table_name|
   ActiveRecord::Base.connection.drop_table table_name if ActiveRecord::Base.connection.table_exists?(table_name)
   require File.expand_path("../../lib/generators/templates/migrations/#{table_name}", File.dirname(__FILE__))
   "Interest#{table_name.camelize}Migration".constantize.migrate :up

@@ -1,7 +1,9 @@
 require "active_record"
 require "interest"
 
-class User < ActiveRecord::Base
+class FollowableUser < ActiveRecord::Base
+  self.table_name = :users
+
   acts_as_follower
   acts_as_followee
 end
