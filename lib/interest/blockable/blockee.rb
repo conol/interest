@@ -28,7 +28,7 @@ module Interest
           association_method_name = blockee_association_method_name_for source_type
 
           has_many association_method_name,
-            ->(owner) { where(blockings: {blockee_type: owner.class.name}).uniq },
+            -> { uniq },
             through:     :blocker_relationships,
             source:      :blocker,
             source_type: source_type

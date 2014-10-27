@@ -29,7 +29,7 @@ module Interest
           association_method_name = followee_association_method_name_for source_type
 
           has_many association_method_name,
-            ->(owner) { where(followings: {followee_type: owner.class.name}).uniq },
+            -> { uniq },
             through:     :follower_relationships,
             source:      :follower,
             source_type: source_type
