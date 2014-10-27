@@ -24,7 +24,15 @@ module Interest
 
       def block(blockee)
         return nil if self == blockee or not blockable?(blockee)
-        blocker_association_method_for(blockee) << blockee
+
+        transaction do
+          blocker_association_method_for(blockee) << blockee
+
+          if followee?
+            blockee.unfollow self if blockee.follower?
+            unfollow blockee if follower?
+          end
+        end
       end
 
       def block!(blockee)

@@ -39,4 +39,17 @@ describe "Blockable" do
 
     expect { other_user.follow!(user) }.to raise_error(Interest::Followable::Rejected)
   end
+
+  it "should destroy their followship when either follower or followee blocks other" do
+    user       = FollowableAndBlockableUser.create!
+    other_user = FollowableAndBlockableUser.create!
+
+    user.follow(other_user)
+    other_user.follow(user)
+
+    user.block(other_user)
+
+    expect(user).not_to be_following(other_user)
+    expect(other_user).not_to be_following(user)
+  end
 end
