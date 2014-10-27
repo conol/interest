@@ -76,8 +76,8 @@ describe "Followable" do
       stuff      = Stuff.create!
       collection = Collection.create!
 
-      user.followings.destroy_all
-      popular_user.followers.destroy_all
+      user.following_relationships.destroy_all
+      popular_user.follower_relationships.destroy_all
 
       user.follow(other_user)
       user.follow(stuff)
@@ -87,8 +87,8 @@ describe "Followable" do
       collection.follow(popular_user)
     end
 
-    it "should count followings" do
-      expect(user.followings.count).to eq(4)
+    it "should count following" do
+      expect(user.following_relationships.count).to eq(4)
     end
 
     it "should count each type of followings" do
@@ -98,7 +98,7 @@ describe "Followable" do
     end
 
     it "should count followers" do
-      expect(popular_user.followers.count).to eq(3)
+      expect(popular_user.follower_relationships.count).to eq(3)
     end
 
     it "should count each type of followers" do

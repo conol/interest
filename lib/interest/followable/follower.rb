@@ -32,8 +32,9 @@ module Interest
         include Interest::Definition.class_methods_for(:follower, :following)
 
         def define_follower_association_methods(*args)
-          has_many :followings,
+          has_many :following_relationships,
             -> { uniq },
+            as:          :follower,
             dependent:   :destroy,
             class_name:  "Following",
             foreign_key: :follower_id
@@ -44,7 +45,7 @@ module Interest
 
           has_many association_method_name,
             ->(owner) { where(followings: {follower_type: owner.class.name}).uniq },
-            through:     :followings,
+            through:     :following_relationships,
             source:      :followee,
             source_type: source_type
         end

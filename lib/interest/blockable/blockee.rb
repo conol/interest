@@ -16,8 +16,9 @@ module Interest
         include Interest::Definition.class_methods_for(:blockee, :blocker)
 
         def define_blockee_association_methods(*args)
-          has_many :blockers,
+          has_many :blocker_relationships,
             -> { uniq },
+            as:          :blockee,
             dependent:   :destroy,
             class_name:  "Blocking",
             foreign_key: :blockee_id
@@ -28,7 +29,7 @@ module Interest
 
           has_many association_method_name,
             ->(owner) { where(blockings: {blockee_type: owner.class.name}).uniq },
-            through:     :blockers,
+            through:     :blocker_relationships,
             source:      :blocker,
             source_type: source_type
         end
