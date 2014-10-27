@@ -28,7 +28,7 @@ module Interest
         transaction do
           blocker_association_method_for(blockee) << blockee
 
-          if followee?
+          if follower? or followee?
             blockee.unfollow self if blockee.follower?
             unfollow blockee if follower?
           end
