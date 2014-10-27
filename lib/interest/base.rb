@@ -7,11 +7,11 @@ module Interest
     extend ActiveSupport::Concern
 
     def followable?(other)
-      other.is_a?(Interest::Followable::Followee)
+      is_a?(Interest::Followable::Follower) and other.is_a?(Interest::Followable::Followee)
     end
 
     def blockable?(other)
-      other.is_a?(Interest::Blockable::Blockee)
+      is_a?(Interest::Blockable::Blocker) and other.is_a?(Interest::Blockable::Blockee)
     end
 
     module ClassMethods
