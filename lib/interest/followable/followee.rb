@@ -21,8 +21,7 @@ module Interest
             -> { uniq },
             as:          :followee,
             dependent:   :destroy,
-            class_name:  "Following",
-            foreign_key: :followee_id
+            class_name:  "Following"
         end
 
         def define_followee_association_method(source_type)

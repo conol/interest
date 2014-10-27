@@ -20,8 +20,7 @@ module Interest
             -> { uniq },
             as:          :blockee,
             dependent:   :destroy,
-            class_name:  "Blocking",
-            foreign_key: :blockee_id
+            class_name:  "Blocking"
         end
 
         def define_blockee_association_method(source_type)

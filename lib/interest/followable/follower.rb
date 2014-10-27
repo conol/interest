@@ -36,8 +36,7 @@ module Interest
             -> { uniq },
             as:          :follower,
             dependent:   :destroy,
-            class_name:  "Following",
-            foreign_key: :follower_id
+            class_name:  "Following"
         end
 
         def define_follower_association_method(source_type)

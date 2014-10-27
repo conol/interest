@@ -51,8 +51,7 @@ module Interest
             -> { uniq },
             as:          :blocker,
             dependent:   :destroy,
-            class_name:  "Blocking",
-            foreign_key: :blocker_id
+            class_name:  "Blocking"
         end
 
         def define_blocker_association_method(source_type)
