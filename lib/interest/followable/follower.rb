@@ -11,10 +11,6 @@ module Interest
 
       include Interest::Definition.instance_methods_for(:follower, :following)
 
-      def followable?(followee)
-        followee.is_a?(Interest::Followable::Followee)
-      end
-
       def following?(followee)
         follower_association_method_for(followee).include? followee
       end
