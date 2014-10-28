@@ -7,7 +7,7 @@ class InterestFollowingsMigration < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :followings, [:follower_id, :follower_type]
-    add_index :followings, [:followee_id, :followee_type]
+    add_index :followings, [:follower_id, :follower_type], name: :index_followings_follower
+    add_index :followings, [:followee_id, :followee_type], name: :index_followings_followee
   end
 end

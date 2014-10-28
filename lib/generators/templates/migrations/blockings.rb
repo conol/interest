@@ -7,7 +7,7 @@ class InterestBlockingsMigration < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :blockings, [:blocker_id, :blocker_type]
-    add_index :blockings, [:blockee_id, :blockee_type]
+    add_index :blockings, [:blocker_id, :blocker_type], name: :index_blockings_blocker
+    add_index :blockings, [:blockee_id, :blockee_type], name: :index_blockings_blockee
   end
 end
