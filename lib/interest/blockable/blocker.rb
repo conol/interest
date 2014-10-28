@@ -28,15 +28,10 @@ module Interest
         transaction do
           blocker_association_method_for(blockee) << blockee
 
-          if follower? or followee?
-            blockee.unfollow self if blockee.follower?
-            unfollow blockee if follower?
-          end
-
-          if follow_requester? or follow_requestee?
-            blockee.cancel_request_to_follow self if blockee.follow_requester?
-            cancel_request_to_follow blockee if follow_requester?
-          end
+          blockee.unfollow self if blockee.follower?
+          unfollow blockee if follower?
+          blockee.cancel_request_to_follow self if blockee.follow_requester?
+          cancel_request_to_follow blockee if follow_requester?
         end
       end
 
