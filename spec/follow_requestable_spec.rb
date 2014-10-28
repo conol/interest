@@ -47,7 +47,7 @@ describe "FollowRequestable" do
     expect { user.request_to_follow!(user) }.to raise_error(Interest::FollowRequestable::Rejected)
   end
 
-  it "should not follow request if always following" do
+  it "should not follow request if already following" do
     user       = FollowRequestableUser.create!
     other_user = FollowRequestableUser.create!
 
