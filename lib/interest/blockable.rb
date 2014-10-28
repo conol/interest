@@ -18,6 +18,11 @@ module Interest
         include Blockee
         define_blockee_association_methods *args
       end
+
+      def acts_as_blockable
+        acts_as_blocker
+        acts_as_blockee
+      end
     end
   end
 end

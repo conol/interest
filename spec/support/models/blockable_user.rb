@@ -4,6 +4,5 @@ require "interest"
 class BlockableUser < ActiveRecord::Base
   self.table_name = :users
 
-  acts_as_blocker
-  acts_as_blockee
+  acts_as_blockable
 end

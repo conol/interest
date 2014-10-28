@@ -18,6 +18,11 @@ module Interest
         include FollowRequestee
         define_follow_requestee_association_methods *args
       end
+
+      def acts_as_follow_requestable
+        acts_as_follow_requester
+        acts_as_follow_requestee
+      end
     end
   end
 end

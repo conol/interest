@@ -18,6 +18,11 @@ module Interest
         include Followee
         define_followee_association_methods *args
       end
+
+      def acts_as_followable
+        acts_as_follower
+        acts_as_followee
+      end
     end
   end
 end

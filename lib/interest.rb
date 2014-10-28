@@ -16,6 +16,14 @@ module Interest
       include FollowRequestable
       include Blockable
     end
+
+    module ClassMethods
+      def interest
+        acts_as_followable
+        acts_as_follow_requestable
+        acts_as_blockable
+      end
+    end
   end
 end
 
