@@ -13,7 +13,7 @@ module Interest
       include Interest::Definition.instance_methods_for(:follow_requester, :follow_requestee)
 
       def required_request_to_follow?(requestee)
-        requestee.requires_request_to_follow?(self)
+        requestee.follow_requestee? and requestee.requires_request_to_follow?(self)
       end
 
       def request_to_follow(requestee)
@@ -36,6 +36,28 @@ module Interest
 
       def valid_follow_request_for?(requestee)
         not (self == requestee or not follow_requestable?(requestee) or (follower? and following? requestee))
+      end
+
+      def follow_or_request_to_follow!(other)
+        if required_request_to_follow? other
+          returned = request_to_follow! other
+          which    = :request_to_follow
+        else
+          returned = follow! other
+          which    = :follow
+        end
+
+        FollowOrRequestToFollow.new which, returned, other
+      end
+
+      class FollowOrRequestToFollow < Struct.new(:which, :returned, :target)
+        def followed?
+          which == :follow
+        end
+
+        def requested_to_follow?
+          which == :request_to_follow
+        end
       end
 
       module ClassMethods
