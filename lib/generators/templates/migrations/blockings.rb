@@ -9,5 +9,6 @@ class InterestBlockingsMigration < ActiveRecord::Migration
 
     add_index :blockings, [:blocker_id, :blocker_type], name: :index_blockings_blocker
     add_index :blockings, [:blockee_id, :blockee_type], name: :index_blockings_blockee
+    add_index :blockings, [:blocker_id, :blocker_type, :blockee_id, :blockee_type], unique: true, name: :index_blockings_uniqueness
   end
 end

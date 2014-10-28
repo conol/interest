@@ -31,6 +31,7 @@ describe "Followable" do
     user.follow(other_user)
     user.follow(other_user)
 
+    expect(user.following_relationships.count).to eq(1)
     expect(user.following_followable_users.count).to eq(1)
   end
 

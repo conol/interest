@@ -18,6 +18,17 @@ describe "Blockable" do
     expect(user).not_to be_blocking(user)
   end
 
+  it "should not duplicate blockee" do
+    user       = BlockableUser.create!
+    other_user = BlockableUser.create!
+
+    user.block(other_user)
+    user.block(other_user)
+
+    expect(user.blocking_relationships.count).to eq(1)
+    expect(user.blocking_blockable_users.count).to eq(1)
+  end
+
   it "should not block self and raise exception" do
     user = BlockableUser.create!
 

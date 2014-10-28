@@ -1,4 +1,5 @@
 require "active_support"
+require "active_record"
 require "interest/utils"
 require "interest/definition"
 require "interest/followable/exceptions"
@@ -22,7 +23,13 @@ module Interest
           cancel_request_to_follow followee if follow_requester?
           followee.cancel_request_to_follow self if followee.follow_requester?
 
-          follower_association_method_for(followee) << followee
+          collection = follower_association_method_for followee
+
+          begin
+            collection << followee
+          rescue ActiveRecord::RecordNotUnique
+            collection
+          end
         end
       end
 

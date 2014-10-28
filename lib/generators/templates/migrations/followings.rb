@@ -9,5 +9,6 @@ class InterestFollowingsMigration < ActiveRecord::Migration
 
     add_index :followings, [:follower_id, :follower_type], name: :index_followings_follower
     add_index :followings, [:followee_id, :followee_type], name: :index_followings_followee
+    add_index :followings, [:follower_id, :follower_type, :followee_id, :followee_type], unique: true, name: :index_followings_uniqueness
   end
 end

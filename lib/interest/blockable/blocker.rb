@@ -1,4 +1,5 @@
 require "active_support"
+require "active_record"
 require "interest/definition"
 require "interest/blockable/exceptions"
 require "interest/blockable/blockee"
@@ -26,12 +27,18 @@ module Interest
         return nil unless valid_blocking_for?(blockee)
 
         transaction do
-          blocker_association_method_for(blockee) << blockee
-
           blockee.unfollow self if blockee.follower?
           unfollow blockee if follower?
           blockee.cancel_request_to_follow self if blockee.follow_requester?
           cancel_request_to_follow blockee if follow_requester?
+
+          collection = blocker_association_method_for blockee
+
+          begin
+            collection << blockee
+          rescue ActiveRecord::RecordNotUnique
+            collection
+          end
         end
       end
 
