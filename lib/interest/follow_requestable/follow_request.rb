@@ -21,6 +21,18 @@ module Interest
         requester.follow!(requestee) and destroy
       end
 
+      def accept_mutual_follow
+        transaction do
+          requester.follow(requestee) and requestee.follow(requester) and destroy
+        end
+      end
+
+      def accept_mutual_follow!
+        transaction do
+          requester.follow!(requestee) and requestee.follow!(requester) and destroy
+        end
+      end
+
       def reject
         destroy
       end

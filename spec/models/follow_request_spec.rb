@@ -12,6 +12,7 @@ describe FollowRequest do
     user.request_to_follow(other_user).accept!
 
     expect(user).to be_following(other_user)
+    expect(other_user).not_to be_following(user)
   end
 
   it "should destroy when accepted request" do
@@ -32,5 +33,16 @@ describe FollowRequest do
     follow_request.reject!
 
     expect(follow_request).to be_destroyed
+  end
+
+  it "should follow each other" do
+    user       = FollowRequestableUser.create!
+    other_user = FollowRequestableUser.create!
+
+    request = user.request_to_follow(other_user)
+    request.accept_mutual_follow!
+
+    expect(user).to be_following(other_user)
+    expect(other_user).to be_following(user)
   end
 end
