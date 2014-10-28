@@ -16,7 +16,7 @@ module Interest
       end
 
       def follow(followee)
-        return nil if followee == self or not followable?(followee)
+        return nil unless valid_following_for?(followee)
         follower_association_method_for(followee) << followee
       end
 
@@ -26,6 +26,10 @@ module Interest
 
       def unfollow(followee)
         follower_association_method_for(followee).delete followee
+      end
+
+      def valid_following_for?(followee)
+        not (followee == self or not followable?(followee))
       end
 
       module ClassMethods

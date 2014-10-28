@@ -23,7 +23,7 @@ module Interest
       end
 
       def block(blockee)
-        return nil if self == blockee or not blockable?(blockee)
+        return nil unless valid_blocking_for?(blockee)
 
         transaction do
           blocker_association_method_for(blockee) << blockee
@@ -46,6 +46,10 @@ module Interest
 
       def unblock(blockee)
         blocker_association_method_for(blockee).delete blockee
+      end
+
+      def valid_blocking_for?(blockee)
+        not (self == blockee or not blockable?(blockee))
       end
 
       module ClassMethods
