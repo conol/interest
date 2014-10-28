@@ -15,7 +15,7 @@ module Interest
       module ClassMethods
         include Interest::Definition.class_methods_for(:blockee, :blocker)
 
-        def define_blockee_association_methods(*args)
+        def define_blockee_association_methods
           has_many :blocker_relationships,
             -> { uniq },
             as:          :blockee,

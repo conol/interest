@@ -6,14 +6,14 @@ require "interest/followable/followee"
 module Interest
   module Followable
     module Extension
-      def acts_as_follower(*args)
+      def acts_as_follower
         include Follower
-        define_follower_association_methods *args
+        define_follower_association_methods
       end
 
-      def acts_as_followee(*args)
+      def acts_as_followee
         include Followee
-        define_followee_association_methods *args
+        define_followee_association_methods
       end
 
       def acts_as_followable

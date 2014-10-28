@@ -6,14 +6,14 @@ require "interest/follow_requestable/follow_request"
 module Interest
   module FollowRequestable
     module Extension
-      def acts_as_follow_requester(*args)
+      def acts_as_follow_requester
         include FollowRequester
-        define_follow_requester_association_methods *args
+        define_follow_requester_association_methods
       end
 
-      def acts_as_follow_requestee(*args)
+      def acts_as_follow_requestee
         include FollowRequestee
-        define_follow_requestee_association_methods *args
+        define_follow_requestee_association_methods
       end
 
       def acts_as_follow_requestable

@@ -6,14 +6,14 @@ require "interest/blockable/blockee"
 module Interest
   module Blockable
     module Extension
-      def acts_as_blocker(*args)
+      def acts_as_blocker
         include Blocker
-        define_blocker_association_methods *args
+        define_blocker_association_methods
       end
 
-      def acts_as_blockee(*args)
+      def acts_as_blockee
         include Blockee
-        define_blockee_association_methods *args
+        define_blockee_association_methods
       end
 
       def acts_as_blockable

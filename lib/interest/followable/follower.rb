@@ -35,7 +35,7 @@ module Interest
       module ClassMethods
         include Interest::Definition.class_methods_for(:follower, :following)
 
-        def define_follower_association_methods(*args)
+        def define_follower_association_methods
           has_many :following_relationships,
             -> { uniq },
             as:          :follower,

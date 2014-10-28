@@ -20,7 +20,7 @@ module Interest
       module ClassMethods
         include Interest::Definition.class_methods_for(:follow_requestee, :follow_requester)
 
-        def define_follow_requestee_association_methods(*args)
+        def define_follow_requestee_association_methods
           has_many :incoming_follow_requests,
             -> { uniq },
             as:          :requestee,
