@@ -2,7 +2,6 @@ require "active_support"
 require "interest/utils"
 require "interest/definition"
 
-
 module Interest
   module FollowRequestable
     module FollowRequestee
