@@ -9,7 +9,7 @@ module Interest
       include Interest::Definition.instance_methods_for(:blockee, :blocker)
 
       def blocked_by?(blocker)
-        blockee_association_method_for(blockee).include? blocker
+        blockee_collection_for(blockee).include? blocker
       end
 
       module ClassMethods

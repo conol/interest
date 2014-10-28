@@ -10,7 +10,7 @@ module Interest
       include Interest::Definition.instance_methods_for(:followee, :follower)
 
       def followed_by?(follower)
-        followee_association_method_for(follower).include? follower
+        followee_collection_for(follower).include? follower
       end
 
       module ClassMethods

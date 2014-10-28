@@ -13,7 +13,7 @@ module Interest
       include Interest::Definition.instance_methods_for(:follower, :following)
 
       def following?(followee)
-        follower_association_method_for(followee).include? followee
+        follower_collection_for(followee).include? followee
       end
 
       def follow(followee)
@@ -23,7 +23,7 @@ module Interest
           cancel_request_to_follow followee if follow_requester?
           followee.cancel_request_to_follow self if followee.follow_requester?
 
-          collection = follower_association_method_for followee
+          collection = follower_collection_for followee
 
           begin
             collection << followee
@@ -38,7 +38,7 @@ module Interest
       end
 
       def unfollow(followee)
-        follower_association_method_for(followee).delete followee
+        follower_collection_for(followee).delete followee
       end
 
       def valid_following_for?(followee)

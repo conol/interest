@@ -6,7 +6,7 @@ module Interest
     class << self
       def instance_methods_for(source, target)
         Module.new do
-          define_method :"#{source}_association_method_for" do |record|
+          define_method :"#{source}_collection_for" do |record|
             __send__ self.class.__send__(:"#{source}_association_method_name_for", record)
           end
 

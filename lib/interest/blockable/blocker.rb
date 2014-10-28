@@ -20,7 +20,7 @@ module Interest
       end
 
       def blocking?(blockee)
-        blocker_association_method_for(blockee).include? blockee
+        blocker_collection_for(blockee).include? blockee
       end
 
       def block(blockee)
@@ -32,7 +32,7 @@ module Interest
           blockee.cancel_request_to_follow self if blockee.follow_requester?
           cancel_request_to_follow blockee if follow_requester?
 
-          collection = blocker_association_method_for blockee
+          collection = blocker_collection_for blockee
 
           begin
             collection << blockee
@@ -47,7 +47,7 @@ module Interest
       end
 
       def unblock(blockee)
-        blocker_association_method_for(blockee).delete blockee
+        blocker_collection_for(blockee).delete blockee
       end
 
       def valid_blocking_for?(blockee)

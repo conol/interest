@@ -14,7 +14,7 @@ module Interest
       end
 
       def has_been_requested_to_follow?(requester)
-        follow_requestee_association_method_for(requester).include? requester
+        follow_requestee_collection_for(requester).include? requester
       end
 
       module ClassMethods

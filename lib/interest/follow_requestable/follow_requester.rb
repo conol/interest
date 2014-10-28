@@ -20,7 +20,7 @@ module Interest
         return nil unless valid_follow_request_for?(requestee)
 
         begin
-          follow_requester_association_method_for(requestee) << requestee
+          follow_requester_collection_for(requestee) << requestee
         rescue ActiveRecord::RecordNotUnique
         end
 
@@ -32,11 +32,11 @@ module Interest
       end
 
       def cancel_request_to_follow(requestee)
-        follow_requester_association_method_for(requestee).delete requestee
+        follow_requester_collection_for(requestee).delete requestee
       end
 
       def has_requested_to_follow?(requestee)
-        follow_requester_association_method_for(requestee).include? requestee
+        follow_requester_collection_for(requestee).include? requestee
       end
 
       def valid_follow_request_for?(requestee)
