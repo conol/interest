@@ -19,7 +19,7 @@ module Interest
             __send__ name
           end
 
-          define_method :respond_to_missing? do |name, include_private = true|
+          define_method :respond_to_missing? do |name, include_private = false|
             !! (super(name, include_private) or /\A#{target}_.+\Z/ =~ name.to_s)
           end
         end
