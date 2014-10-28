@@ -17,7 +17,13 @@ module Interest
 
       def follow(followee)
         return nil unless valid_following_for?(followee)
-        follower_association_method_for(followee) << followee
+
+        transaction do
+          cancel_request_to_follow followee if follow_requester?
+          followee.cancel_request_to_follow self if followee.follow_requester?
+
+          follower_association_method_for(followee) << followee
+        end
       end
 
       def follow!(followee)

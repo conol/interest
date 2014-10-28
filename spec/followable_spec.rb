@@ -106,4 +106,17 @@ describe "Followable" do
       expect(popular_user.follower_collections.count).to eq(1)
     end
   end
+
+  it "should destroy their follow requests when either requester or requestee follows other" do
+    user       = FollowRequestableUser.create!
+    other_user = FollowRequestableUser.create!
+
+    user.request_to_follow(other_user)
+    other_user.request_to_follow(user)
+
+    user.follow(other_user)
+
+    expect(user).not_to have_requested_to_follow(other_user)
+    expect(other_user).not_to have_been_requested_to_follow(user)
+  end
 end
