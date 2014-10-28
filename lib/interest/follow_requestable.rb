@@ -1,4 +1,3 @@
-require "active_support"
 require "interest/follow_requestable/exceptions"
 require "interest/follow_requestable/follow_requester"
 require "interest/follow_requestable/follow_requestee"
@@ -6,9 +5,7 @@ require "interest/follow_requestable/follow_request"
 
 module Interest
   module FollowRequestable
-    extend ActiveSupport::Concern
-
-    module ClassMethods
+    module Extension
       def acts_as_follow_requester(*args)
         include FollowRequester
         define_follow_requester_association_methods *args

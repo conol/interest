@@ -7,14 +7,14 @@ require "active_support"
 require "active_record"
 
 module Interest
-  module Modules
+  module Extension
     extend ActiveSupport::Concern
 
     included do
       include Base
-      include Followable
-      include FollowRequestable
-      include Blockable
+      extend Followable::Extension
+      extend FollowRequestable::Extension
+      extend Blockable::Extension
     end
 
     module ClassMethods
@@ -27,4 +27,4 @@ module Interest
   end
 end
 
-ActiveRecord::Base.__send__ :include, Interest::Modules
+ActiveRecord::Base.__send__ :include, Interest::Extension

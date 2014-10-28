@@ -1,4 +1,3 @@
-require "active_support"
 require "interest/blockable/exceptions"
 require "interest/blockable/blocking"
 require "interest/blockable/blocker"
@@ -6,9 +5,7 @@ require "interest/blockable/blockee"
 
 module Interest
   module Blockable
-    extend ActiveSupport::Concern
-
-    module ClassMethods
+    module Extension
       def acts_as_blocker(*args)
         include Blocker
         define_blocker_association_methods *args
