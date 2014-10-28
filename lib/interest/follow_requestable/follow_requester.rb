@@ -18,7 +18,12 @@ module Interest
 
       def request_to_follow(requestee)
         return nil unless valid_follow_request_for?(requestee)
-        follow_requester_association_method_for(requestee) << requestee rescue ActiveRecord::RecordNotUnique
+
+        begin
+          follow_requester_association_method_for(requestee) << requestee
+        rescue ActiveRecord::RecordNotUnique
+        end
+
         outgoing_follow_requests.find_by(requestee: requestee)
       end
 
