@@ -52,4 +52,17 @@ describe "Blockable" do
     expect(user).not_to be_following(other_user)
     expect(other_user).not_to be_following(user)
   end
+
+  it "should destroy their follow requests when either requester or requestee blocks other" do
+    user       = FollowRequestableAndBlockableUser.create!
+    other_user = FollowRequestableAndBlockableUser.create!
+
+    user.request_to_follow(other_user)
+    other_user.request_to_follow(user)
+
+    user.block(other_user)
+
+    expect(user).not_to have_requested_to_follow(other_user)
+    expect(other_user).not_to have_been_requested_to_follow(user)
+  end
 end

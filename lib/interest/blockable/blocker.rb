@@ -32,6 +32,11 @@ module Interest
             blockee.unfollow self if blockee.follower?
             unfollow blockee if follower?
           end
+
+          if follow_requester? or follow_requestee?
+            blockee.cancel_request_to_follow self if blockee.follow_requester?
+            cancel_request_to_follow blockee if follow_requester?
+          end
         end
       end
 
