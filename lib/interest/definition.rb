@@ -34,11 +34,9 @@ module Interest
       end
 
       def collection_methods_for(target)
-        key = :"#{target}_type"
-
         Module.new do
           define_method :of do |*args|
-            where key => args.map(&Interest::Utils.method(:source_type_of))
+            where :"#{target}_type" => args.map(&Interest::Utils.method(:source_type_of))
           end
         end
       end
