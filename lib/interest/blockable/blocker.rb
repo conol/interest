@@ -12,11 +12,7 @@ module Interest
       include Interest::Definition.instance_methods_for(:blocker, :blocking)
 
       def followable?(other)
-        if other.is_a?(Interest::Blockable::Blocker)
-          super and not other.blocking? self
-        else
-          super
-        end
+        super and not (other.blockee? and blocking?(other)) and not (blockee? and other.blocker? and other.blocking? self)
       end
 
       def blocking?(blockee)
