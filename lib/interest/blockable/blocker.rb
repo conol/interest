@@ -25,12 +25,10 @@ module Interest
         transaction do
           ::Following.destroy_relationships_between self, blockee
 
-          collection = blocker_collection_for blockee
-
           begin
-            collection << blockee
+            blocking_relationships.create!(blockee: blockee)
           rescue ActiveRecord::RecordNotUnique
-            collection
+            blocking_relationships.find_by(blockee: blockee)
           end
         end
       end
