@@ -11,12 +11,11 @@ module Interest
           end
 
           define_method :method_missing do |name, *args, &block|
-            return super(name, *args, &block) if args.present? or block.present?
             return super(name, *args, &block) unless matches = /\A#{target}_(?<type>.+)\Z/.match(name.to_s)
 
             self.class.__send__ :"define_#{source}_association_method", matches[:type].classify
 
-            __send__ name
+            __send__ name, *args, &block
           end
 
           define_method :respond_to_missing? do |name, include_private = false|
