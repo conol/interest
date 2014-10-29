@@ -6,8 +6,23 @@ module Interest
   module Utils
     class << self
       def symbolic_name_of(object)
-        name = object.is_a?(ActiveRecord::Base) ? object.class.name : object.to_s
-        name.underscore.pluralize
+        if object.is_a?(ActiveRecord::Base)
+          object.class.name
+        elsif object.is_a?(Class) and object < ActiveRecord::Base
+          object.name
+        else
+          object.to_s
+        end.underscore.pluralize
+      end
+
+      def source_type_of(object)
+        if object.is_a?(ActiveRecord::Base)
+          object.class.name
+        elsif object.is_a?(Class) and object < ActiveRecord::Base
+          object.name
+        else
+          object.to_s.classify
+        end
       end
     end
   end

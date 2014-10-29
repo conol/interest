@@ -2,6 +2,7 @@ $:.unshift File.expand_path("../lib", File.dirname(__FILE__))
 
 ENV['RAILS_ENV'] ||= 'test'
 
+require "rspec/collection_matchers"
 require "active_support/testing/assertions"
 require "interest"
 

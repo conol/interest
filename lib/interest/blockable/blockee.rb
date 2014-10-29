@@ -20,7 +20,9 @@ module Interest
             -> { uniq },
             as:          :blockee,
             dependent:   :destroy,
-            class_name:  "Blocking"
+            class_name:  "Blocking" do
+              include Interest::Definition.collection_methods_for(:blocker)
+            end
         end
 
         def define_blockee_association_method(source_type)

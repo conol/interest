@@ -75,4 +75,32 @@ describe "FollowRequestable" do
     expect(user.follow_or_request_to_follow!(other_user).followed?).to eq(true)
     expect(other_user.follow_or_request_to_follow!(user).requested_to_follow?).to eq(true)
   end
+
+  it "should find outgoing follow request of specified type" do
+    user        = FollowRequestableUser.create!
+    other_user1 = FollowRequestableUser.create!
+    other_user2 = FollowRequestableUser.create!
+    collection  = Collection.create!
+
+    user.request_to_follow(other_user1)
+    user.request_to_follow(other_user2)
+    user.request_to_follow(collection)
+
+    expect(user.outgoing_follow_requests.of(FollowRequestableUser)).to have_exactly(2).items
+    expect(user.outgoing_follow_requests.of(Collection)).to have_exactly(1).items
+  end
+
+  it "should find incoming follow request of specified type" do
+    user        = FollowRequestableUser.create!
+    other_user1 = FollowRequestableUser.create!
+    other_user2 = FollowRequestableUser.create!
+    collection  = Collection.create!
+
+    other_user1.request_to_follow(user)
+    other_user2.request_to_follow(user)
+    collection.request_to_follow(user)
+
+    expect(user.incoming_follow_requests.of(FollowRequestableUser)).to have_exactly(2).items
+    expect(user.incoming_follow_requests.of(Collection)).to have_exactly(1).items
+  end
 end

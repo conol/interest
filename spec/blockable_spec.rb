@@ -76,4 +76,32 @@ describe "Blockable" do
     expect(user).not_to have_requested_to_follow(other_user)
     expect(other_user).not_to have_been_requested_to_follow(user)
   end
+
+  it "should find outgoing blocking of specified type" do
+    user        = BlockableUser.create!
+    other_user1 = BlockableUser.create!
+    other_user2 = BlockableUser.create!
+    collection  = Collection.create!
+
+    user.block(other_user1)
+    user.block(other_user2)
+    user.block(collection)
+
+    expect(user.blocking_relationships.of(BlockableUser)).to have_exactly(2).items
+    expect(user.blocking_relationships.of(Collection)).to have_exactly(1).items
+  end
+
+  it "should find incoming blocking of specified type" do
+    user        = BlockableUser.create!
+    other_user1 = BlockableUser.create!
+    other_user2 = BlockableUser.create!
+    collection  = Collection.create!
+
+    other_user1.block(user)
+    other_user2.block(user)
+    collection.block(user)
+
+    expect(user.blocker_relationships.of(BlockableUser)).to have_exactly(2).items
+    expect(user.blocker_relationships.of(Collection)).to have_exactly(1).items
+  end
 end

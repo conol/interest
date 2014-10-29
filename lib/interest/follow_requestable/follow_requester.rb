@@ -72,7 +72,9 @@ module Interest
             -> { where(followings: {status: "pending"}).uniq },
             as:          :follower,
             dependent:   :destroy,
-            class_name:  "Following"
+            class_name:  "Following" do
+              include Interest::Definition.collection_methods_for(:followee)
+            end
         end
 
         def define_follow_requester_association_method(source_type)
