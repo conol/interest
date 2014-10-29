@@ -20,11 +20,10 @@ module Interest
         return nil unless valid_follow_request_for?(requestee)
 
         begin
-          follow_requester_collection_for(requestee) << requestee
+          outgoing_follow_requests.create!(requestee: requestee)
         rescue ActiveRecord::RecordNotUnique
+          outgoing_follow_requests.find_by(requestee: requestee)
         end
-
-        outgoing_follow_requests.find_by(requestee: requestee)
       end
 
       def request_to_follow!(requestee)
