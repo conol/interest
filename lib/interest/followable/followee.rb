@@ -18,7 +18,7 @@ module Interest
 
         def define_followee_association_methods
           has_many :follower_relationships,
-            -> { uniq },
+            -> { where(followings: {status: "accepted"}).uniq },
             as:          :followee,
             dependent:   :destroy,
             class_name:  "Following"

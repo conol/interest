@@ -22,10 +22,10 @@ module Interest
 
         def define_follow_requestee_association_methods
           has_many :incoming_follow_requests,
-            -> { uniq },
-            as:          :requestee,
+            -> { where(followings: {status: "pending"}).uniq },
+            as:          :followee,
             dependent:   :destroy,
-            class_name:  "FollowRequest"
+            class_name:  "Following"
         end
 
         def define_follow_requestee_association_method(source_type)
@@ -34,7 +34,7 @@ module Interest
           has_many association_method_name,
             -> { uniq },
             through:     :incoming_follow_requests,
-            source:      :requester,
+            source:      :follower,
             source_type: source_type
         end
       end

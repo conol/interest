@@ -27,10 +27,7 @@ module Interest
         return nil unless valid_blocking_for?(blockee)
 
         transaction do
-          blockee.unfollow self if blockee.follower?
-          unfollow blockee if follower?
-          blockee.cancel_request_to_follow self if blockee.follow_requester?
-          cancel_request_to_follow blockee if follow_requester?
+          ::Following.destroy_relationships_between self, blockee
 
           collection = blocker_collection_for blockee
 

@@ -20,9 +20,9 @@ module Interest
         return nil unless valid_follow_request_for?(requestee)
 
         begin
-          outgoing_follow_requests.create!(requestee: requestee)
+          outgoing_follow_requests.create!(followee: requestee)
         rescue ActiveRecord::RecordNotUnique
-          outgoing_follow_requests.find_by(requestee: requestee)
+          outgoing_follow_requests.find_by(followee: requestee)
         end
       end
 
@@ -69,10 +69,10 @@ module Interest
 
         def define_follow_requester_association_methods
           has_many :outgoing_follow_requests,
-            -> { uniq },
-            as:          :requester,
+            -> { where(followings: {status: "pending"}).uniq },
+            as:          :follower,
             dependent:   :destroy,
-            class_name:  "FollowRequest"
+            class_name:  "Following"
         end
 
         def define_follow_requester_association_method(source_type)
@@ -81,7 +81,7 @@ module Interest
           has_many association_method_name,
             -> { uniq },
             through:     :outgoing_follow_requests,
-            source:      :requestee,
+            source:      :followee,
             source_type: source_type
         end
       end

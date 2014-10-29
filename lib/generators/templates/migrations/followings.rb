@@ -3,6 +3,7 @@ class InterestFollowingsMigration < ActiveRecord::Migration
     create_table :followings do |t|
       t.belongs_to :follower, polymorphic: true, null: false
       t.belongs_to :followee, polymorphic: true, null: false
+      t.string :status, null: false
 
       t.timestamps
     end

@@ -5,31 +5,23 @@ module Interest
     module FollowRequest
       extend ActiveSupport::Concern
 
-      included do
-        belongs_to :requester, polymorphic: true
-        belongs_to :requestee, polymorphic: true
-
-        validates :requester, presence: true
-        validates :requestee, presence: true
-      end
-
       def accept
-        requester.follow(requestee) and destroy
+        update status: "accepted"
       end
 
       def accept!
-        requester.follow!(requestee) and destroy
+        update! status: "accepted"
       end
 
       def accept_mutual_follow
         transaction do
-          requester.follow(requestee) and requestee.follow(requester) and destroy
+          accept and followee.follow(follower)
         end
       end
 
       def accept_mutual_follow!
         transaction do
-          requester.follow!(requestee) and requestee.follow!(requester) and destroy
+          accept! and followee.follow!(follower)
         end
       end
 

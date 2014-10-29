@@ -19,17 +19,12 @@ module Interest
       def follow(followee)
         return nil unless valid_following_for?(followee)
 
-        transaction do
-          cancel_request_to_follow followee if follow_requester?
-          followee.cancel_request_to_follow self if followee.follow_requester?
-
-          collection = follower_collection_for followee
-
-          begin
-            collection << followee
-          rescue ActiveRecord::RecordNotUnique
-            collection
-          end
+        begin
+          following_relationships.create!(followee: followee)
+        rescue ActiveRecord::RecordNotUnique
+          if follow_requester? and followee.follow_requestee?
+            outgoing_follow_requests.find_by(followee: followee).try(:accept!)
+          end or following_relationships.find_by(followee: followee)
         end
       end
 
@@ -50,7 +45,7 @@ module Interest
 
         def define_follower_association_methods
           has_many :following_relationships,
-            -> { uniq },
+            -> { where(followings: {status: "accepted"}).uniq },
             as:          :follower,
             dependent:   :destroy,
             class_name:  "Following"
