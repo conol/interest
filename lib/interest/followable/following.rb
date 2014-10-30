@@ -32,6 +32,14 @@ module Interest
         status == "pending"
       end
 
+      def mutual
+        followee.follow(follower)
+      end
+
+      def mutual!
+        followee.follow!(follower)
+      end
+
       module ClassMethods
         def destroy_relationships_between(a, b)
           between(a, b).destroy_all
