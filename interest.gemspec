@@ -6,11 +6,11 @@ require 'interest/version'
 Gem::Specification.new do |spec|
   spec.name          = "interest"
   spec.version       = Interest::VERSION
-  spec.authors       = ["ta"]
+  spec.authors       = ["tatat"]
   spec.email         = ["ioiioioloo@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{A gem to follow, follow request and block between any ActiveRecord models.}
+  spec.description   = %q{A gem to follow, follow request and block between any ActiveRecord models.}
+  spec.homepage      = "https://github.com/conol/interest"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

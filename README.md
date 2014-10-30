@@ -1,6 +1,6 @@
 # Interest
 
-a gem to follow, follow request and block between any models.
+a gem to follow, follow request and block between any ActiveRecord models.
 
 ## Installation
 
