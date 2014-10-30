@@ -13,16 +13,20 @@ module Interest
         update! status: "accepted"
       end
 
+      def mutual
+        followee.follow(follower)
+      end
+
+      def mutual!
+        followee.follow!(follower)
+      end
+
       def accept_mutual_follow
-        transaction do
-          accept and followee.follow(follower)
-        end
+        transaction { accept and mutual }
       end
 
       def accept_mutual_follow!
-        transaction do
-          accept! and followee.follow!(follower)
-        end
+        transaction { accept! and mutual! }
       end
 
       def reject

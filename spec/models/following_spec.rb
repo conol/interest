@@ -35,7 +35,7 @@ describe Following do
     expect(follow_request).to be_destroyed
   end
 
-  it "should follow each other" do
+  it "should accept to follow and follow each other" do
     user       = FollowRequestableUser.create!
     other_user = FollowRequestableUser.create!
 
@@ -46,12 +46,21 @@ describe Following do
     expect(other_user).to be_following(user)
   end
 
+  it "should follow each other" do
+    user       = FollowRequestableUser.create!
+    other_user = FollowRequestableUser.create!
+
+    user.follow(other_user).mutual
+
+    expect(user).to be_following(other_user)
+    expect(other_user).to be_following(user)
+  end
+
   it "should destroy relationships between a and b" do
     a = FollowRequestableUser.create!
     b = FollowRequestableUser.create!
 
-    a.follow(b)
-    b.follow(a)
+    a.follow(b).mutual
 
     Following.destroy_relationships_between(a, b)
 
