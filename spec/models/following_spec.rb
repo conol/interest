@@ -46,6 +46,18 @@ describe Following do
     expect(other_user).to be_following(user)
   end
 
+  it "should destroy relationships between a and b" do
+    a = FollowRequestableUser.create!
+    b = FollowRequestableUser.create!
+
+    a.follow(b)
+    b.follow(a)
+
+    Following.destroy_relationships_between(a, b)
+
+    expect(Following.between(a, b)).to have_exactly(0).items
+  end
+
   describe "accepted and pending scopes" do
     before :all do
       Following.destroy_all
