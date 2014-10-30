@@ -12,6 +12,9 @@ module Interest
         validates :follower, presence: true
         validates :followee, presence: true
         validates :status, presence: true, inclusion: {in: %w(pending accepted)}
+
+        scope :accepted, -> { where(status: "accepted") }
+        scope :pending, -> { where(status: "pending") }
       end
 
       def accepted?

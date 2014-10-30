@@ -45,4 +45,21 @@ describe Following do
     expect(user).to be_following(other_user)
     expect(other_user).to be_following(user)
   end
+
+  describe "scopes" do
+    before :all do
+      Following.destroy_all
+
+      2.times { FollowRequestableUser.create!.follow!(FollowRequestableUser.create!) }
+      2.times { FollowRequestableUser.create!.request_to_follow!(FollowRequestableUser.create!) }
+    end
+
+    it "should get all following" do
+      expect(Following.accepted).to be_present.and all be_accepted
+    end
+
+    it "should get all follow requests" do
+      expect(Following.pending).to be_present.and all be_pending
+    end
+  end
 end
