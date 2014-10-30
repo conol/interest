@@ -46,7 +46,7 @@ describe Following do
     expect(other_user).to be_following(user)
   end
 
-  describe "scopes" do
+  describe "accepted and pending scopes" do
     before :all do
       Following.destroy_all
 
@@ -60,6 +60,30 @@ describe Following do
 
     it "should get all follow requests" do
       expect(Following.pending).to be_present.and all be_pending
+    end
+  end
+
+  describe "between scope" do
+    let(:a) { FollowRequestableUser.create! }
+    let(:b) { FollowRequestableUser.create! }
+
+    before do
+      Following.destroy_relationships_between(a, b)
+
+      a.follow(b)
+      b.request_to_follow(a)
+    end
+
+    it "should get all relationships between a and b" do
+      expect(Following.between(a, b)).to have_exactly(2).items
+    end
+
+    it "should get accepted relationship" do
+      expect(Following.between(a, b).accepted).to have_exactly(1).items
+    end
+
+    it "should get pending relationship" do
+      expect(Following.between(a, b).pending).to have_exactly(1).items
     end
   end
 end

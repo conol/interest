@@ -15,6 +15,13 @@ module Interest
 
         scope :accepted, -> { where(status: "accepted") }
         scope :pending, -> { where(status: "pending") }
+
+        scope :between, ->(a, b) {
+          a_to_b = where(follower: a, followee: b).where_values.reduce(:and)
+          b_to_a = where(follower: b, followee: a).where_values.reduce(:and)
+
+          where a_to_b.or(b_to_a)
+        }
       end
 
       def accepted?
@@ -27,10 +34,7 @@ module Interest
 
       module ClassMethods
         def destroy_relationships_between(a, b)
-          a_to_b = where(follower: a, followee: b).where_values.reduce(:and)
-          b_to_a = where(follower: b, followee: a).where_values.reduce(:and)
-
-          where(a_to_b.or(b_to_a)).destroy_all
+          between(a, b).destroy_all
         end
       end
     end
