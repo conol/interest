@@ -16,7 +16,7 @@ module Interest
       end
 
       def destroy_following_relationships
-        ::Following.destroy_relationships_between blocker, blockee
+        Interest.following_class.destroy_relationships_between blocker, blockee
       end
     end
   end

@@ -4,6 +4,7 @@ require "interest/followable"
 require "interest/follow_requestable"
 require "interest/blockable"
 require "active_support"
+require "active_support/core_ext/string/inflections"
 require "active_record"
 
 module Interest
@@ -23,6 +24,24 @@ module Interest
         acts_as_follow_requestable
         acts_as_blockable
       end
+    end
+  end
+
+  class << self
+    def following_class_name
+      "::Following"
+    end
+
+    def following_class
+      @following_class ||= following_class_name.constantize
+    end
+
+    def blocking_class_name
+      "::Blocking"
+    end
+
+    def blocking_class
+      @blocking_class ||= blocking_class_name.constantize
     end
   end
 end

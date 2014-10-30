@@ -20,7 +20,7 @@ module Interest
             -> { uniq },
             as:          :blockee,
             dependent:   :destroy,
-            class_name:  "Blocking" do
+            class_name:  Interest.blocking_class_name do
               include Interest::Definition.collection_methods_for(:blocker)
             end
         end

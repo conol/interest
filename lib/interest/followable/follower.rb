@@ -45,10 +45,10 @@ module Interest
 
         def define_follower_association_methods
           has_many :following_relationships,
-            -> { where(followings: {status: "accepted"}).uniq },
+            -> { where(Interest.following_class.table_name.to_sym => {status: "accepted"}).uniq },
             as:          :follower,
             dependent:   :destroy,
-            class_name:  "Following" do
+            class_name:  Interest.following_class_name do
               include Interest::Definition.collection_methods_for(:followee)
             end
         end
