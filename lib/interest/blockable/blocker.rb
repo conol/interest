@@ -22,14 +22,10 @@ module Interest
       def block(blockee)
         return nil unless valid_blocking_for?(blockee)
 
-        transaction do
-          ::Following.destroy_relationships_between self, blockee
-
-          begin
-            blocking_relationships.create!(blockee: blockee)
-          rescue ActiveRecord::RecordNotUnique
-            blocking_relationships.find_by(blockee: blockee)
-          end
+        begin
+          blocking_relationships.create!(blockee: blockee)
+        rescue ActiveRecord::RecordNotUnique
+          blocking_relationships.find_by(blockee: blockee)
         end
       end
 

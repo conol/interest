@@ -11,6 +11,12 @@ module Interest
 
         validates :blocker, presence: true
         validates :blockee, presence: true
+
+        after_create :destroy_following_relationships
+      end
+
+      def destroy_following_relationships
+        ::Following.destroy_relationships_between blocker, blockee
       end
     end
   end
