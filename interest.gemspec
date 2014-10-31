@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Interest::VERSION
   spec.authors       = ["tatat"]
   spec.email         = ["ioiioioloo@gmail.com"]
-  spec.summary       = %q{A gem to follow, follow request and block between any ActiveRecord models.}
+  spec.summary       = %q{Follow, follow request and block with ActiveRecord.}
   spec.description   = %q{A gem to follow, follow request and block between any ActiveRecord models.}
   spec.homepage      = "https://github.com/conol/interest"
   spec.license       = "MIT"
@@ -18,12 +18,12 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "activesupport", "~> 4"
-  spec.add_dependency "activerecord", "~> 4"
+  spec.add_dependency "activesupport", "~> 4.0"
+  spec.add_dependency "activerecord", "~> 4.0"
 
   spec.add_development_dependency "bundler", "~> 1.6"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "sqlite3"
-  spec.add_development_dependency "rspec", "~> 3"
-  spec.add_development_dependency "rspec-collection_matchers"
+  spec.add_development_dependency "rake", "~> 10.3"
+  spec.add_development_dependency "sqlite3", "~> 1.3"
+  spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "rspec-collection_matchers", "~> 1"
 end
