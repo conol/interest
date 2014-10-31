@@ -29,6 +29,26 @@ describe "Blockable" do
     expect(user.blocking_blockable_users.count).to eq(1)
   end
 
+  it "should be a Blocking" do
+    user       = BlockableUser.create!
+    other_user = BlockableUser.create!
+
+    user.block(other_user)
+
+    expect(user.blocking_relationships.of(BlockableUser)).to be_present.and all be_a Blocking
+  end
+
+  it "should be a model is blocked" do
+    user       = BlockableUser.create!
+    other_user = BlockableUser.create!
+    collection = Collection.create!
+
+    user.block(other_user)
+    user.block(collection)
+
+    expect(user.blocking_blockable_users).to be_present.and all be_a BlockableUser
+  end
+
   it "should not block self and raise exception" do
     user = BlockableUser.create!
 

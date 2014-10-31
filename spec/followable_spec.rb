@@ -35,6 +35,26 @@ describe "Followable" do
     expect(user.following_followable_users.count).to eq(1)
   end
 
+  it "should be a Following" do
+    user       = FollowableUser.create!
+    other_user = FollowableUser.create!
+
+    user.follow(other_user)
+
+    expect(user.following_relationships.of(FollowableUser)).to be_present.and all be_a Following
+  end
+
+  it "should be a model is followed" do
+    user       = FollowableUser.create!
+    other_user = FollowableUser.create!
+    stuff      = Stuff.create!
+
+    user.follow(other_user)
+    user.follow(stuff)
+
+    expect(user.following_followable_users).to be_present.and all be_a FollowableUser
+  end
+
   it "should follow several types" do
     user       = FollowableUser.create!
     other_user = FollowableUser.create!

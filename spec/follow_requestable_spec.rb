@@ -22,6 +22,26 @@ describe "FollowRequestable" do
     expect(user.follow_requestee_follow_requestable_users.count).to eq(1)
   end
 
+  it "should be a Following" do
+    user       = FollowRequestableUser.create!
+    other_user = FollowRequestableUser.create!
+
+    user.request_to_follow(other_user)
+
+    expect(user.outgoing_follow_requests.of(FollowRequestableUser)).to be_present.and all be_a Following
+  end
+
+  it "should be a model is requested to follow" do
+    user       = FollowRequestableUser.create!
+    other_user = FollowRequestableUser.create!
+    collection = Collection.create!
+
+    user.request_to_follow(other_user)
+    user.request_to_follow(collection)
+
+    expect(user.follow_requestee_follow_requestable_users).to be_present.and all be_a FollowRequestableUser
+  end
+
   it "should cancel follow request" do
     user       = FollowRequestableUser.create!
     other_user = FollowRequestableUser.create!
