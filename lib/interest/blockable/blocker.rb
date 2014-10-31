@@ -19,18 +19,18 @@ module Interest
         blocker_collection_for(blockee).include? blockee
       end
 
-      def block(blockee)
-        return nil unless valid_blocking_for?(blockee)
-
-        begin
-          blocking_relationships.create!(blockee: blockee)
-        rescue ActiveRecord::RecordNotUnique
-          blocking_relationships.find_by(blockee: blockee)
-        end
+      def block(blockee, raise_record_invalid = false)
+        blocking_relationships.create!(blockee: blockee)
+      rescue ActiveRecord::RecordInvalid => exception
+        raise_record_invalid ? (raise exception) : nil
+      rescue ActiveRecord::RecordNotUnique
+        blocking_relationships.find_by(blockee: blockee)
       end
 
       def block!(blockee)
-        block blockee or raise Interest::Blockable::Rejected
+        block(blockee, true)
+      rescue ActiveRecord::RecordInvalid => exception
+        raise Interest::Blockable::Rejected.new(exception)
       end
 
       def unblock(blockee)

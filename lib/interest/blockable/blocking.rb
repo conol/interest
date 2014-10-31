@@ -12,6 +12,8 @@ module Interest
         validates :blocker, presence: true
         validates :blockee, presence: true
 
+        validate :validate_blocking_relationships, if: :should_validate_blocking_relationships?
+
         scope :between, ->(a, b) {
           a_to_b = where(blocker: a, blockee: b).where_values.reduce(:and)
           b_to_a = where(blocker: b, blockee: a).where_values.reduce(:and)
@@ -24,6 +26,16 @@ module Interest
 
       def destroy_following_relationships
         Interest.following_class.destroy_relationships_between blocker, blockee
+      end
+
+      def should_validate_blocking_relationships?
+        blocker.is_a?(ActiveRecord::Base) and blockee.is_a?(ActiveRecord::Base)
+      end
+
+      def validate_blocking_relationships
+        errors.add :blocker, :invalid unless blocker.blocker?
+        errors.add :blockee, :invalid unless blockee.blockee?
+        errors.add :blockee, :rejected if blocker.blocker? and not blocker.valid_blocking_for?(blockee)
       end
 
       module ClassMethods

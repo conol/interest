@@ -5,6 +5,16 @@ describe Following do
     expect { Following.create! }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
+  it "should be invalid" do
+    user       = FollowRequestableAndBlockableUser.create!
+    other_user = FollowRequestableAndBlockableUser.create!
+
+    other_user.block(user)
+
+    expect { Following.create! follower: user, followee: other_user, status: "pending" }.to raise_error(ActiveRecord::RecordInvalid)
+    expect { Following.create! follower: user, followee: other_user, status: "accepted" }.to raise_error(ActiveRecord::RecordInvalid)
+  end
+
   it "should let requester follow requestee when accepted request" do
     user       = FollowRequestableUser.create!
     other_user = FollowRequestableUser.create!

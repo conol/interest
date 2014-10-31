@@ -5,6 +5,13 @@ describe Blocking do
     expect { Blocking.create! }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
+  it "should be invalid" do
+    user       = BlockableUser.create!
+    other_user = FollowableUser.create!
+
+    expect { Blocking.create! blocker: user, blockee: other_user }.to raise_error(ActiveRecord::RecordInvalid)
+  end
+
   it "should destroy relationships between a and b" do
     a = BlockableUser.create!
     b = BlockableUser.create!

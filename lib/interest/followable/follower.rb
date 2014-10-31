@@ -16,20 +16,20 @@ module Interest
         follower_collection_for(followee).include? followee
       end
 
-      def follow(followee)
-        return nil unless valid_following_for?(followee)
-
-        begin
-          following_relationships.create!(followee: followee)
-        rescue ActiveRecord::RecordNotUnique
-          if follow_requester? and followee.follow_requestee?
-            outgoing_follow_requests.find_by(followee: followee).try(:accept!)
-          end or following_relationships.find_by(followee: followee)
-        end
+      def follow(followee, raise_record_invalid = false)
+        following_relationships.create!(followee: followee)
+      rescue ActiveRecord::RecordInvalid => exception
+        raise_record_invalid ? (raise exception) : nil
+      rescue ActiveRecord::RecordNotUnique
+        if follow_requester? and followee.follow_requestee?
+          outgoing_follow_requests.find_by(followee: followee).try(:accept!)
+        end or following_relationships.find_by(followee: followee)
       end
 
       def follow!(followee)
-        follow followee or raise Interest::Followable::Rejected
+        follow(followee, true)
+      rescue ActiveRecord::RecordInvalid => exception
+        raise Interest::Followable::Rejected.new(exception)
       end
 
       def unfollow(followee)

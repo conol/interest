@@ -16,18 +16,18 @@ module Interest
         requestee.follow_requestee? and requestee.requires_request_to_follow?(self)
       end
 
-      def request_to_follow(requestee)
-        return nil unless valid_follow_request_for?(requestee)
-
-        begin
-          outgoing_follow_requests.create!(followee: requestee)
-        rescue ActiveRecord::RecordNotUnique
-          outgoing_follow_requests.find_by(followee: requestee)
-        end
+      def request_to_follow(requestee, raise_record_invalid = false)
+        outgoing_follow_requests.create!(followee: requestee)
+      rescue ActiveRecord::RecordInvalid => exception
+        raise_record_invalid ? (raise exception) : nil
+      rescue ActiveRecord::RecordNotUnique
+        outgoing_follow_requests.find_by(followee: requestee)
       end
 
       def request_to_follow!(requestee)
-        request_to_follow requestee or raise Interest::FollowRequestable::Rejected
+        request_to_follow(requestee, true)
+      rescue ActiveRecord::RecordInvalid => exception
+        raise Interest::FollowRequestable::Rejected.new(exception)
       end
 
       def cancel_request_to_follow(requestee)
