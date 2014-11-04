@@ -14,7 +14,7 @@ module Interest
           define_method :method_missing do |name, *args, &block|
             return super(name, *args, &block) unless matches = /\A#{target}_(?<type>.+)\Z/.match(name.to_s)
 
-            self.class.__send__ :"define_#{source}_association_method", Interest::Utils.source_type_of(matches[:type])
+            self.class.__send__ :"define_#{source}_association_method", Interest::Utils.source_type_of(matches[:type], self.class.model_name.to_s)
 
             __send__ name, *args, &block
           end
