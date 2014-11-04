@@ -168,4 +168,14 @@ describe "Followable" do
     expect(user.follower_relationships.of(FollowableUser)).to have_exactly(2).items
     expect(user.follower_relationships.of(Collection)).to have_exactly(1).items
   end
+
+  it "should be defined association method for namespaced class" do
+    user  = FollowableUser.create!
+    stuff = Deeply::Nested::Namespace::Stuff.create!
+
+    user.follow(stuff)
+
+    expect { user.following_deeply_nested_namespace_stuffs }.not_to raise_error
+    expect { stuff.follower_followable_users }.not_to raise_error
+  end
 end

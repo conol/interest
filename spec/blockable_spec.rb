@@ -124,4 +124,14 @@ describe "Blockable" do
     expect(user.blocker_relationships.of(BlockableUser)).to have_exactly(2).items
     expect(user.blocker_relationships.of(Collection)).to have_exactly(1).items
   end
+
+  it "should be defined association method for namespaced class" do
+    user  = BlockableUser.create!
+    stuff = Deeply::Nested::Namespace::Stuff.create!
+
+    user.block(stuff)
+
+    expect { user.blocking_deeply_nested_namespace_stuffs }.not_to raise_error
+    expect { stuff.blocker_blockable_users }.not_to raise_error
+  end
 end
