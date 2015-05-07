@@ -262,7 +262,7 @@ returns `Blocking` or raises `Interest::Blockable::Rejected`.
 Otherwise,
 
 ```ruby
-blocking = blog.block!(user)
+blocking = blog.block(user)
 ```
 
 returns `Blocking` or `nil`
