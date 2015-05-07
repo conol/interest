@@ -17,7 +17,6 @@ module Interest
 
         def define_blockee_association_methods
           has_many :blocker_relationships,
-            -> { uniq },
             as:          :blockee,
             dependent:   :destroy,
             class_name:  Interest.blocking_class_name do
@@ -29,7 +28,6 @@ module Interest
           association_method_name = blockee_association_method_name_for source_type
 
           has_many association_method_name,
-            -> { uniq },
             through:     :blocker_relationships,
             source:      :blocker,
             source_type: source_type

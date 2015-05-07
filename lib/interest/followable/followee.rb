@@ -18,7 +18,7 @@ module Interest
 
         def define_followee_association_methods
           has_many :follower_relationships,
-            -> { where(Interest.following_class.table_name.to_sym => {status: "accepted"}).uniq },
+            -> { where(Interest.following_class.table_name.to_sym => {status: "accepted"}) },
             as:          :followee,
             dependent:   :destroy,
             class_name:  Interest.following_class_name do
@@ -30,7 +30,6 @@ module Interest
           association_method_name = followee_association_method_name_for source_type
 
           has_many association_method_name,
-            -> { uniq },
             through:     :follower_relationships,
             source:      :follower,
             source_type: source_type

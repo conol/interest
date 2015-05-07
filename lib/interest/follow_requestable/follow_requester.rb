@@ -69,7 +69,7 @@ module Interest
 
         def define_follow_requester_association_methods
           has_many :outgoing_follow_requests,
-            -> { where(followings: {status: "pending"}).uniq },
+            -> { where(followings: {status: "pending"}) },
             as:          :follower,
             dependent:   :destroy,
             class_name:  "Following" do
@@ -81,7 +81,6 @@ module Interest
           association_method_name = follow_requester_association_method_name_for source_type
 
           has_many association_method_name,
-            -> { uniq },
             through:     :outgoing_follow_requests,
             source:      :followee,
             source_type: source_type
